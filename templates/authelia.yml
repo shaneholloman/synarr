@@ -1,25 +1,25 @@
 ---
-  # Authelia - https://www.authelia.com/docs/
-  #
-  # Don't forget to create the directory, change the -u value if needed (the created user)
-  # sudo -u docker mkdir -m=00775 /volume1/docker/appdata/authelia
-  #
-  authelia:
-    image: authelia/authelia
-    container_name: authelia
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    volumes:
-      - ${DOCKERCONFDIR}/authelia:/config
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+# Authelia - https://www.authelia.com/docs/
+#
+# Don't forget to create the directory, change the -u value if needed (the created user)
+# sudo -u docker mkdir -m=00775 /volume1/docker/appdata/authelia
+#
+authelia:
+  image: authelia/authelia
+  container_name: authelia
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  volumes:
+    - ${DOCKERCONFDIR}/authelia:/config
+  environment:
+    - TZ=${TZ}
+    - PUID=${PUID}
+    - PGID=${PGID}
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}

@@ -3,26 +3,26 @@
 # Don't forget to create the directory, change the -u value if needed (the created user)
 # sudo -u docker mkdir -m=00775 /volume1/docker/appdata/radarr
 #
-  radarr:
-    container_name: radarr
-    image: hotio/radarr:latest
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
-    ports:
-      - 7878:7878
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/radarr:/config
-      - ${DOCKERSTORAGEDIR}:/data
+radarr:
+  container_name: radarr
+  image: hotio/radarr:latest
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+  ports:
+    - 7878:7878
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${DOCKERCONFDIR}/radarr:/config
+    - ${DOCKERSTORAGEDIR}:/data

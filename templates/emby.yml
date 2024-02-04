@@ -3,29 +3,29 @@
 # Don't forget to create the appdata directory, change user if needed (-u username)
 # sudo -u docker mkdir -m=00775 /volume1/docker/appdata/emby
 #
-  emby:
-    container_name: emby
-    image: lscr.io/linuxserver/emby
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
-    ports:
-      - 8096:8096/tcp
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK_SET=022
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/emby:/config:rw
-      - ${DOCKERSTORAGEDIR}/media:/data/media:rw
-    devices:                                        # optional: if you have a Syno with an Intel CPU and want hardware transcoding
-      - /dev/dri:/dev/dri                           # optional: if you have a Syno with an Intel CPU and want hardware transcoding
+emby:
+  container_name: emby
+  image: lscr.io/linuxserver/emby
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+  ports:
+    - 8096:8096/tcp
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - UMASK_SET=022
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${DOCKERCONFDIR}/emby:/config:rw
+    - ${DOCKERSTORAGEDIR}/media:/data/media:rw
+  devices:                                        # optional: if you have a Syno with an Intel CPU and want hardware transcoding
+    - /dev/dri:/dev/dri                           # optional: if you have a Syno with an Intel CPU and want hardware transcoding

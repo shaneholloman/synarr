@@ -4,26 +4,26 @@
 # sudo mkdir -m=00775 /volume1/docker/appdata/notifiarr
 #
 # It is important that a static hostname is set so the site can keep track of multiple clients for the settings
-  notifiarr:
-    container_name: notifiarr
-    hostname: ${HOSTNAME}
-    image: golift/notifiarr:latest
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    user: ${PUID}:${PGID}
-    ports:
-      - 5454:5454
-    environment:
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKERCONFDIR}/notifiarr:/config
-      - /var/run/utmp:/var/run/utmp          # optional, only needed if you want to count users
-    privileged: true                         # Optional, only needed for Snapshots
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+notifiarr:
+  container_name: notifiarr
+  hostname: ${HOSTNAME}
+  image: golift/notifiarr:latest
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  user: ${PUID}:${PGID}
+  ports:
+    - 5454:5454
+  environment:
+    - TZ=${TZ}
+  volumes:
+    - ${DOCKERCONFDIR}/notifiarr:/config
+    - /var/run/utmp:/var/run/utmp          # optional, only needed if you want to count users
+  privileged: true                         # Optional, only needed for Snapshots
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}

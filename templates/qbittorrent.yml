@@ -18,45 +18,45 @@
 # Check if running with - sudo systemctl status tun
 # recreate the container with - sudo docker-compose up --force-recreate qbittorrent
 
-  qbittorrent:
-    container_name: qbittorrent
-    image: hotio/qbittorrent:legacy
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
-    ports:
-      - "${QBITTORRENT_WEBUI_PORT}:${QBITTORRENT_WEBUI_PORT}/tcp"
-      - "${QBITTORRENT_WEBUI_PORT}:${QBITTORRENT_WEBUI_PORT}/udp"
-      - "${QBITTORRENT_PRIVOXY_PORT}:${QBITTORRENT_PRIVOXY_PORT}/tcp"
-      - "${QBITTORRENT_PRIVOXY_PORT}:${QBITTORRENT_PRIVOXY_PORT}/udp"
-    cap_add:
-      - NET_ADMIN
+qbittorrent:
+  container_name: qbittorrent
+  image: hotio/qbittorrent:legacy
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+  ports:
+    - "${QBITTORRENT_WEBUI_PORT}:${QBITTORRENT_WEBUI_PORT}/tcp"
+    - "${QBITTORRENT_WEBUI_PORT}:${QBITTORRENT_WEBUI_PORT}/udp"
+    - "${QBITTORRENT_PRIVOXY_PORT}:${QBITTORRENT_PRIVOXY_PORT}/tcp"
+    - "${QBITTORRENT_PRIVOXY_PORT}:${QBITTORRENT_PRIVOXY_PORT}/udp"
+  cap_add:
+    - NET_ADMIN
 #   devices:                              # Optional, uncomment if you use VPN
 #     - /dev/net/tun:/dev/net/tun         # Optional, uncomment if you use VPN
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.disable_ipv6=1  # Optional, if you want to use ipv6, remove this line. If you keep this line, make sure there is no ipv6 in your wg0.conf.
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK=022
-      - VPN_ENABLED=${VPN_ENABLED}
-      - VPN_LAN_NETWORK=${LAN_NETWORK}
-      - VPN_CONF=wg0
-      - PRIVOXY_ENABLED=${QBITTORRENT_ENABLE_PRIVOXY}
-      - WEBUI_PORTS=${QBITTORRENT_WEBUI_PORT}/tcp,${QBITTORRENT_WEBUI_PORT}/udp  # Optional only needed if you want to change the default 8080 WebUI port
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/qbittorrent:/config:rw
-      - ${DOCKERSTORAGEDIR}/torrents:/data/torrents:rw
+  sysctls:
+    - net.ipv4.conf.all.src_valid_mark=1
+    - net.ipv6.conf.all.disable_ipv6=1  # Optional, if you want to use ipv6, remove this line. If you keep this line, make sure there is no ipv6 in your wg0.conf.
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - UMASK=022
+    - VPN_ENABLED=${VPN_ENABLED}
+    - VPN_LAN_NETWORK=${LAN_NETWORK}
+    - VPN_CONF=wg0
+    - PRIVOXY_ENABLED=${QBITTORRENT_ENABLE_PRIVOXY}
+    - WEBUI_PORTS=${QBITTORRENT_WEBUI_PORT}/tcp,${QBITTORRENT_WEBUI_PORT}/udp  # Optional only needed if you want to change the default 8080 WebUI port
+  dns:
+    - 1.1.1.1
+    - 8.8.8.8
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${DOCKERCONFDIR}/qbittorrent:/config:rw
+    - ${DOCKERSTORAGEDIR}/torrents:/data/torrents:rw

@@ -3,27 +3,27 @@
 # Don't forget to create the directory, change the -u value if needed (the created user)
 # sudo -u docker mkdir -m=00775 /volume1/docker/appdata/sabnzbd
 #
-  sabnzbd:
-    container_name: sabnzbd
-    image: hotio/sabnzbd:latest
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
-    ports:
-      - 8080:8080
-      - 9090:9090
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/sabnzbd:/config
-      - ${DOCKERSTORAGEDIR}/usenet:/data/usenet:rw
+sabnzbd:
+  container_name: sabnzbd
+  image: hotio/sabnzbd:latest
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+  ports:
+    - 8080:8080
+    - 9090:9090
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${DOCKERCONFDIR}/sabnzbd:/config
+    - ${DOCKERSTORAGEDIR}/usenet:/data/usenet:rw

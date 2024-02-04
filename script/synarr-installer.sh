@@ -673,14 +673,17 @@ printf '\n%b\n' " ${ulmc} Setting correct docker storage dir in the .env"
 sed -i "s|DOCKERSTORAGEDIR=/volume1/data|DOCKERSTORAGEDIR=${docker_data_dir}|g" "${docker_conf_dir}/appdata/.env"
 printf '\n%b\n' " ${utick} ${clc}${docker_data_dir}${cend} set."
 #################################################################################################################################################
-# compose template downloader
+# Docker Compose Template Integration
 #################################################################################################################################################
 get_app_compose() {
     if wget -qO "${docker_conf_dir}/appdata/${1}.yml" "https://raw.githubusercontent.com/shaneholloman/synarr/main/templates/${1,,}.yml"; then
-        # printf '\n' >> "${docker_conf_dir}/appdata/docker-compose.yml"
 
         [[ "${options}" = 'sabnzbd' ]] && sed -r 's|- 8080:8080$|- 7080:8080|g' -i "${docker_conf_dir}/appdata/${1}.yml"
         [[ "${options}" == 'dozzle' ]] && sed -r 's|- 8080:8080$|- 7081:8080|g' -i "${docker_conf_dir}/appdata/${1}.yml"
+
+        # Add two spaces of indentation to each line of the app compose template allowing to have proper formatting in the docker-compose.yml
+        # This way the app compose templates can be properly formatted to pass linting and added to the docker-compose.yml file.
+        sed -i 's/^/  /' "${docker_conf_dir}/appdata/${1}.yml"
 
         if grep -q "^\s*${1,,}:" "${docker_conf_dir}/appdata/docker-compose.yml"; then
             printf '\n%b\n' " ${ucross} Skipped adding ${1,,} to compose, already exists."
@@ -787,7 +790,9 @@ while true; do
                 esac
             done
         fi
-        printf '\n%b\n' " ${ulmc} Doing final permissions stuff, be patient as there is no progress bar here."
+        printf '\n%b\n' " ${ulmc} Ensuring correct permissions on the choosen appdata dir."
+        printf '\n%b\n' " ${ulmc} Please be patient as there is no progress bar here, can seconds or a few minutes."
+        printf '\n%b\n' " ${ulmc} This can seconds or even several minutes."
         chown -R "${user}":"${group}" "${docker_data_dir}" "${docker_conf_dir}/appdata"
         chmod -R a=,a+rX,u+w,g+w "${docker_data_dir}" "${docker_conf_dir}/appdata"
         printf '\n%b\n' " ${utick} Permissions set."

@@ -3,27 +3,27 @@
 # Don't forget to create the directory, change chown command if needed (the user:group part)
 # sudo -u docker mkdir -m=00775 /volume1/docker/appdata/dozzle
 #
-  dozzle:
-    container_name: dozzle
-    image: amir20/dozzle
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    labels:
-      - org.hotio.pullio.update=${PULLIO_UPDATE}
-      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
-      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
-    ports:
-      - 8080:8080
-    environment:
-      - DOZZLE_BASE=/
-      - DOZZLE_LEVEL=info
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+dozzle:
+  container_name: dozzle
+  image: amir20/dozzle
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-file: ${DOCKERLOGGING_MAXFILE}
+      max-size: ${DOCKERLOGGING_MAXSIZE}
+  labels:
+    - org.hotio.pullio.update=${PULLIO_UPDATE}
+    - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+    - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+  ports:
+    - 8080:8080
+  environment:
+    - DOZZLE_BASE=/
+    - DOZZLE_LEVEL=info
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /var/run/docker.sock:/var/run/docker.sock
