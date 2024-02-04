@@ -1,0 +1,31 @@
+# Flaresolverr - ghcr.io/flaresolverr/flaresolverr
+#
+# Don't forget to create the directory, change chown command if needed (the user:group part)
+# sudo -u docker mkdir -m=00775 /volume1/docker/appdata/flaresolverr
+#
+  prowlarr:
+    container_name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    labels:
+      - org.hotio.pullio.update=${PULLIO_UPDATE}
+      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+    ports:
+      - 8191:8191
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK=002
+      - ARGS=
+    volumes:
+      - ${DOCKERCONFDIR}/flaresolverr:/config:rw

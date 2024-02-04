@@ -1,0 +1,29 @@
+# cross-seed - https://hub.docker.com/r/mmgoodnow/cross-seed
+#
+# Don't forget to create the directory, change chown command if needed (the user:group part)
+# sudo -u docker mkdir -m=00775 /volume1/docker/appdata/cross-seed
+#
+  cross-seed:
+    container_name: cross-seed
+    image: ghcr.io/cross-seed/cross-seed:latest
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    labels:
+      - org.hotio.pullio.update=${PULLIO_UPDATE}
+      - org.hotio.pullio.notify=${PULLIO_NOTIFY}
+      - org.hotio.pullio.discord.webhook=${PULLIO_DISCORD_WEBHOOK}
+    ports:
+      - 2468:2468
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/cross-seed:/config
+      - ${DOCKERCONFDIR}/qbittorrent/data/BT_backup:/qbit_appdata:ro
+      - ${DOCKERSTORAGEDIR}/torrents:/output
+    command: daemon

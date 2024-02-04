@@ -1,0 +1,20 @@
+# recyclarr - https://github.com/recyclarr/recyclarr
+#
+# Don't forget to create the directory, change the -u value if needed (the created user)
+# sudo -u docker mkdir -m=00775 /volume1/docker/appdata/recyclarr
+#
+  recyclarr:
+    container_name: recyclarr
+    image: ghcr.io/recyclarr/recyclarr
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+      - CRON_SCHEDULE=@daily
+    volumes:
+      - ${DOCKERCONFDIR}/recyclarr:/config

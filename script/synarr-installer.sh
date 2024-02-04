@@ -1,0 +1,822 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2034  # Unused variables left for readability
+
+# MIT License
+
+# Copyright (c) 2022 Bokkoman
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# Author       - Ideas and original and code by @bokkoman.
+# Contributors - Big thanks to @userdocs for helping with the script.
+# Testers      - Thanks @Davo1624 for testing initial script. Xpenology for providing VM images.
+# Credits      - https://trash-guides.info https://github.com/TRaSH-/Guides-Synology-Templates
+
+## This script is created for Synology systems that support Docker. Tested on DSM v7.1
+
+#################################################################################################################################################
+# Color me up Scotty - define some color values to use as variables in the scripts - https://robotmoon.com/256-colors/
+#################################################################################################################################################
+cr="\e[31m" clr="\e[91m"       # [c]olor[r]ed     [c]olor[l]ight[r]ed
+cg="\e[32m" clg="\e[92m"       # [c]olor[g]reen   [c]olor[l]ight[g]reen
+cy="\e[33m" cly="\e[93m"       # [c]olor[y]ellow  [c]olor[l]ight[y]ellow
+cb="\e[34m" clb="\e[94m"       # [c]olor[b]lue    [c]olor[l]ight[b]lue
+cm="\e[35m" clm="\e[38;5;212m" # [c]olor[m]agenta [c]olor[l]ight[m]agenta
+cc="\e[36m" clc="\e[38;5;81m"  # [c]olor[c]yan    [c]olor[l]ight[c]yan
+
+tb="\e[1m" td="\e[2m" tu="\e[4m" tn="\n" tbk="\e[5m" # [t]ext[b]old [t]ext[d]im [t]ext[u]nderlined [t]ext[n]ewline [t]ext[b]lin[k]
+
+utick="\e[32m\U2714\e[0m" uplus="\e[36m\U002b\e[0m" ucross="\e[31m\U00D7\e[0m" # [u]nicode][tick] [u]nicode][plus] [u]nicode][cross]
+
+urc="\e[31m\U25cf\e[0m" ulrc="\e[38;5;9m\U25cf\e[0m"   # [u]nicode[r]ed[c]ircle     [u]nicode[l]ight[r]ed[c]ircle
+ugc="\e[32m\U25cf\e[0m" ulgc="\e[92m\U25cf\e[0m"       # [u]nicode[g]reen[c]ircle   [u]nicode[l]ight[g]reen[c]ircle
+uyc="\e[33m\U25cf\e[0m" ulyc="\e[93m\U25cf\e[0m"       # [u]nicode[y]ellow[c]ircle  [u]nicode[l]ight[y]ellow[c]ircle
+ubc="\e[34m\U25cf\e[0m" ulbc="\e[94m\U25cf\e[0m"       # [u]nicode[b]lue[c]ircle    [u]nicode[l]ight[b]lue[c]ircle
+umc="\e[35m\U25cf\e[0m" ulmc="\e[38;5;135m\U25cf\e[0m" # [u]nicode[m]agenta[c]ircle [u]nicode[l]ight[m]agenta[c]ircle
+ucc="\e[36m\U25cf\e[0m" ulcc="\e[96m\U25cf\e[0m"       # [u]nicode[c]yan[c]ircle    [u]nicode[l]ight[c]yan[c]ircle
+ugrc="\e[37m\U25cf\e[0m" ulgrcc="\e[97m\U25cf\e[0m"    # [u]nicode[gr]ey[c]ircle    [u]nicode[l]ight[gr]ey[c]ircle
+
+cdef="\e[39m" # [c]olor[def]ault
+bkend="\e[0m"
+cend="\e[0m" # [c]olor[end]
+#################################################################################################################################################
+# Banner
+#################################################################################################################################################
+
+echo -e '\e[38;2;64;81;181m\n'
+cat << "EOF"
+  .d8888b  888  888 88888b.   8888b.  888d888 888d888
+  88K      888  888 888 "88b     "88b 888"    888"
+  "Y8888b. 888  888 888  888 .d888888 888     888
+       X88 Y88b 888 888  888 888  888 888     888
+   88888P'  "Y88888 888  888 "Y88888" 888     888
+                888
+           Y8b d88P
+            "Y88P"
+EOF
+echo -e '\e[0m\n'
+sleep 2
+
+#################################################################################################################################################
+# Disclaimer
+#################################################################################################################################################
+
+# Display disclaimer
+printf '\n%s\n' "DISCLAIMER: Use this script at your own risk."
+printf '\n%s\n' "This script is provided as-is without any warranty or guarantee of any kind. The author behind the script shall not be held liable for any damages or losses arising from its use."
+printf '\n%s\n' "Please note that the script may perform certain actions that can modify your system or data. It is recommended to review the script and understand its functionality before executing it."
+printf '\n%s\n' "By proceeding with the execution of this script, you acknowledge that you have read this disclaimer and agree to take full responsibility for any consequences that may arise from using the script."
+printf '\n%s\n' "If you are unsure about the script or its implications, it is recommended to seek assistance from a qualified professional before proceeding."
+printf '\n%s\n' "Or you can follow the complete step-by-step guide at:"
+printf '%s\n' "https://trash-guides.info/Hardlinks/How-to-setup-for/Synology"
+printf '\n'
+
+# Prompt for confirmation
+read -erp "Do you want to continue? [y]es/[n]o: " -n 1 confirm
+echo
+
+# Check user's confirmation
+if [[ "${confirm}" != [Yy] ]]; then
+    printf '%s\n' "Script execution canceled by the user."
+    exit 0
+fi
+
+#################################################################################################################################################
+# check DSM Version
+#################################################################################################################################################
+# Get current DSM version running
+# shellcheck source=/dev/null
+currentver="$(. /etc/VERSION && echo "${productversion:?}")"
+requiredver="7.0.0"
+cmversion="7.2"
+if [ "$(printf '%s\n' "$requiredver" "$currentver" | sort -V | head -n1)" != "$requiredver" ]; then
+    printf "\n%b\n" " ${ulrc} Script is only compatible with DSM 7.0 and higher."
+    exit 1
+fi
+
+# Check if the version is higher or equal to 7.2
+if [ "$(printf '%s\n' "$cmversion" "$currentver" | sort -V | head -n1)" = "$cmversion" ]; then
+    cmdocker="yes"
+else
+    cmdocker="no"
+fi
+#################################################################################################################################################
+# check for root access and exit if the user does not have the required privileges.
+#################################################################################################################################################
+if [[ "$(id -un)" != 'root' ]]; then
+    printf "\n%b\n" " ${ulrc} Please run this script with sudo to proceed"
+    printf "\n%b\n\n" " ${utick} sudo ./$(basename -- "$0")"
+    exit 1
+fi
+#################################################################################################################################################
+# Hide thing or show them
+#################################################################################################################################################
+if [[ "${1}" == 'show' ]]; then
+    hide_all='' hide_output='' hide_error=''
+else
+    hide_all='&> /dev/null' hide_output='1> /dev/null' hide_error='2> /dev/null'
+fi
+#################################################################################################################################################
+# trap to catch errors
+#################################################################################################################################################
+err_report() {
+    printf '\n%b\n\n' " ${ucross} Error on line $1 - script exited to allow for debugging"
+    exit 1
+}
+
+trap 'err_report $LINENO' ERR
+#################################################################################################################################################
+# Multi select function
+#################################################################################################################################################
+function _multiselect {
+    printf '\n'
+
+    # Create an array of all container namees https://docs.docker.com/engine/reference/commandline/ps/#formatting
+    mapfile -t installed_containers < <(docker ps --format "{{.Names}}")
+
+    # Create our menu my_options associative array
+    declare -A my_options
+    eval "$(curl -sL "https://raw.githubusercontent.com/shaneholloman/synarr/main/templates/template-file-list.json" | jq -r '.templates | to_entries[]|@sh"my_options[\(.value)]=false"')"
+
+    # Create some local arrays we need and make sure they're set to empty when the function is used/looped in the script
+    local selected_values=()
+    local selected_apps=()
+    local lastrow
+    local startrow
+    # Create this global array we need fall through the function and make sure it is set to empty when the function is used/looped in the script
+    selected_options=()
+
+    # check the installed_containers array to see what is already installed, matched against our available_templates array so as not to add non template containers to the menu
+    for index in "${installed_containers[@]}"; do
+        if [[ "${!my_options[*]}" =~ ${index} ]]; then
+            my_options["${index}"]="true"
+        fi
+    done
+
+    # little helpers for terminal print control and key input
+    # not really sure what this does or how it works.
+    cursor_blink_on() { printf "\033[?25h"; }
+    cursor_blink_off() { printf "\033[?25l"; }
+    cursor_to() { printf '%b' "\033[${1};${2:-1}H"; }
+    print_inactive() { printf '%b' "${2}   ${1} "; }
+    print_active() { printf '%b' "${2}  \033[7m ${1} \033[27m"; }
+    get_cursor_row() {
+        IFS=';' read -rsdR -p $'\E[6n' ROW COL
+        printf '%b' "${ROW#*[}"
+    }
+
+    # This will check the defaults of the my_options and set the menu option to true.
+    # This eseentially switches back to an indexed array due to how the function toggle_option is working.
+    for defaults in "${!my_options[@]}"; do
+        if [[ "${my_options[$defaults]}" == 'true' ]]; then
+            selected_values+=("true")
+        else
+            selected_values+=("false")
+        fi
+        printf "\n"
+    done
+
+    # determine current screen position for overwriting the my_options
+    lastrow="$(get_cursor_row)"
+    startrow="$((lastrow - ${#my_options[@]}))"
+
+    # ensure cursor and input echoing back on upon a ctrl+c during read -s
+    trap "cursor_blink_on; stty echo; printf '\n'; exit" 2
+    cursor_blink_off
+
+    # not really sure what this does or how it works.
+    key_input() {
+        local key
+        IFS= read -rsn1 key &>/dev/null
+        case "${key}" in
+        '')
+            echo enter
+            ;;
+        $'\x20')
+            echo space
+            ;;
+        'k')
+            echo up
+            ;;
+        'j')
+            echo down
+            ;;
+        $'\x1b')
+            read -rsn2 key
+            case "$key" in
+            '[A' | 'k')
+                echo up
+                ;;&
+            '[B' | 'j')
+                echo down
+                ;;&
+            esac
+            ;;
+        *) ;;
+        esac
+    }
+
+    # Passes the toggled options and a positional parameter number, 0 to 19 for example, and then sets the index matching that number to false or true. selected_values[2]=false, selected_values[16]=false
+    toggle_option() {
+        local option="${1}"
+        if [[ "${selected_values[option]}" == 'true' ]]; then
+            selected_values["$option"]=false
+        else
+            selected_values["$option"]=true
+        fi
+    }
+
+    # not really sure what this does or how it works.
+    print_options() {
+        # print options by overwriting the last lines
+        local idx=0
+        for option in "${!my_options[@]}"; do
+            local prefix=" [\e[38;5;9m×\e[0m]"
+            if [[ ${selected_values[idx]} == true ]]; then
+                prefix=" [\e[38;5;46m✔\e[0m]"
+            fi
+
+            cursor_to $((startrow + idx))
+            if [[ "${idx}" -eq "${1}" ]]; then
+                print_active "${option}" "${prefix}"
+            else
+                print_inactive "${option}" "${prefix}"
+            fi
+            ((idx++))
+        done
+    }
+
+    local active=0
+    while true; do
+        print_options "${active}"
+        # user key control
+        case $(key_input) in
+        space)
+            toggle_option "${active}"
+            ;;
+        enter)
+            print_options -1
+            break
+            ;;
+        up)
+            ((active--))
+            if [[ "${active}" -lt 0 ]]; then active=$((${#my_options[@]} - 1)); fi
+            ;;
+        down)
+            ((active++))
+            if [[ "${active}" -ge "${#my_options[@]}" ]]; then active=0; fi
+            ;;
+        esac
+    done
+
+    # cursor position back to normal
+    cursor_to "${lastrow}"
+    printf "\n"
+    cursor_blink_on
+
+    if [[ ! "${selected_values[*]}" =~ 'true' ]]; then
+        printf '%b\n' " ${ulrc} You must select at least one option to proceed. Try again"
+        _multiselect
+    else
+        for values in "${!my_options[@]}"; do
+            selected_apps+=("$values")
+        done
+
+        for count in "${!selected_apps[@]}"; do
+            my_options[${selected_apps[$count]}]=${selected_values[$count]}
+        done
+
+        for final_selection in "${!my_options[@]}"; do
+            if [[ "${my_options[$final_selection]}" == 'true' ]]; then
+                selected_options+=("$final_selection")
+            fi
+        done
+
+        # You can use thee "${selected_options[@]}" array to install apps as it is just the name of the app.
+        printf '%b\n\n' " ${utick} You have selected:"
+        printf " ${uyc} %s\n" "${selected_options[@]}"
+        printf '\n'
+    fi
+}
+#################################################################################################################################################
+# Volumes, data and docker bootstrap
+#################################################################################################################################################
+# Create an array of all available volumes on this device
+mapfile -t volume_list_array < <(mount -l | grep -E "/volume[0-9]{1,2}\s" | awk '{ print $3 }' | sort -V) # printf '%b\n' "${volume_list_array[@]}"
+[[ "${#volume_list_array[@]}" -eq '1' ]] && docker_install_volume="${volume_list_array[0]}" docker_install_volume_id="${volume_list_array[0]#\/volume}"
+
+# If docker is installed we will get the default path from docker and use that to set the variable - docker_install_volume - else set docker to be isntalled
+if [[ "$cmdocker" == "yes" ]]; then
+    # DSM version is > 7.2, check if package is installed
+    if [[ "$(
+        synopkg status ContainerManager &>/dev/null
+        printf '%b' "$?"
+    )" -le '1' ]]; then
+        # Package is already installed
+        docker_install_volume="$(sed -rn 's|(.*)path=(/volume(.*))/docker|\2|p' /etc/samba/smb.share.conf)"
+        install_containermanager="no"
+    else
+        # Package is not installed, install it
+        install_containermanager="yes"
+        # Add your installation command for the package here
+    fi
+else
+    if [[ "$(
+        synopkg status Docker &>/dev/null
+        printf '%b' "$?"
+    )" -le '1' ]]; then
+        # Package is already installed, check paths
+        docker_install_volume="$(sed -rn 's|(.*)path=(/volume(.*))/docker|\2|p' /etc/samba/smb.share.conf)"
+        install_docker="no"
+    else
+        # Package is not installed, install it
+        install_docker="yes"
+        # Add your installation command for the package here
+    fi
+fi
+
+# if docker needs to be installed but there is more than one volume ask the user which volume they want to use for the installation and set this to the variable - docker_install_volume
+if [[ "$cmdocker" == "yes" ]]; then
+    if [[ "${install_containermanager}" == 'yes' && "${#volume_list_array[@]}" -gt '1' ]]; then
+        PS3=$'\n \e[94m\U25cf\e[m '"Please select where to install docker from the list of volumes: "$'\n\n '
+        printf "\n%b\n\n" " ${uyc} This is where docker will be installed and the conf dirs stored"
+        select option in "${volume_list_array[@]}"; do # in "$@" is the default
+            if [[ "$REPLY" -gt "${#volume_list_array[@]}" ]]; then
+                printf '\n%b\n\n' " ${ucross}This is not a valid volume option, try again"
+            else
+                docker_install_volume="$(printf '%s' "${option}")"
+                read -erp $'\n \e[32m\U2714\e[0m '"You selected "$'\e[96m'"${docker_install_volume}"$'\e[m'" is this correct "$'\e[32m'"[y]es"$'\e[m'" or "$'\e[31m'"[n]o"$'\e[m'" : " -i "y" confirm
+                if [[ "${confirm}" =~ ^[yY](es)?$ ]]; then
+                    docker_install_volume_id="${docker_install_volume#\/volume}"
+                    break
+                fi
+            fi
+        done
+    fi
+else
+    if [[ "${install_docker}" == 'yes' && "${#volume_list_array[@]}" -gt '1' ]]; then
+        PS3=$'\n \e[94m\U25cf\e[m '"Please select where to install docker from the list of volumes: "$'\n\n '
+        printf "\n%b\n\n" " ${uyc} This is where docker will be installed and the conf dirs stored"
+        select option in "${volume_list_array[@]}"; do # in "$@" is the default
+            if [[ "$REPLY" -gt "${#volume_list_array[@]}" ]]; then
+                printf '\n%b\n\n' " ${ucross}This is not a valid volume option, try again"
+            else
+                docker_install_volume="$(printf '%s' "${option}")"
+                read -erp $'\n \e[32m\U2714\e[0m '"You selected "$'\e[96m'"${docker_install_volume}"$'\e[m'" is this correct "$'\e[32m'"[y]es"$'\e[m'" or "$'\e[31m'"[n]o"$'\e[m'" : " -i "y" confirm
+                if [[ "${confirm}" =~ ^[yY](es)?$ ]]; then
+                    docker_install_volume_id="${docker_install_volume#\/volume}"
+                    break
+                fi
+            fi
+        done
+    fi
+fi
+
+if [[ "${#volume_list_array[@]}" -gt '1' ]]; then
+    existing_data_share=$(synoshare --get data | sed -rn 's#^(.*)Path(.*)\[(.*)/data\]$#\3#p')
+    if [[ -z "${existing_data_share}" ]]; then
+        # If there is more than one volume ask the user which volume they want to use for the data directories and set this to the variable - docker_data_volume
+        PS3=$'\n \e[94m\U25cf\e[m '"Please select a data volume from the list of volumes: "$'\n\n '
+        printf "\n%b\n\n" " ${uyc} This volume is where the data files will be stored (movies, shows, etc)"
+        select option in "${volume_list_array[@]}"; do # in "$@" is the default
+            if [[ "$REPLY" -gt "${#volume_list_array[@]}" ]]; then
+                printf '\n%b\n\n' " ${ucross}This is not a valid volume option, try again"
+            else
+                docker_data_volume="$(printf '%s' "${option}")"
+                read -erp $'\n \e[32m\U2714\e[0m '"You selected "$'\e[96m'"${docker_data_volume}"$'\e[m'" is this correct "$'\e[32m'"[y]es"$'\e[m'" or "$'\e[31m'"[n]o"$'\e[m'" : " -i "y" confirm
+                if [[ "${confirm}" =~ ^[yY](es)?$ ]]; then
+                    docker_data_dir_id=${docker_data_volume#\/volume}
+                    break
+                fi
+            fi
+        done
+    else
+        printf "\n%b\n" " ${uyc} Using existing data share found at ${clc}${existing_data_share}/data${cend}"
+        docker_data_volume="${existing_data_share}"
+        docker_data_dir_id="${existing_data_share#\/volume}"
+    fi
+fi
+#################################################################################################################################################
+# Default values
+#################################################################################################################################################
+group="users"                                                                                  # {Update me if needed} Group App will run as.
+docker_conf_dir="${docker_install_volume}/docker"                                              # docker directory
+docker_data_dir="${docker_data_volume:-${docker_install_volume}}/data"                         # /data share
+docker_data_dir_id="${docker_data_dir_id:-${docker_install_volume_id}}"                        # /volume{id} - just the number
+ip="$(ip route get 1 | awk '{print $NF;exit}')"                                                # get local ip
+gateway="$(ip route | grep "$(ip route get 1 | awk '{print $7}')" | awk 'FNR==2{print $1}')"   # get gateway ip
+TZ="$(realpath --relative-to /usr/share/zoneinfo /etc/localtime)"                              # get timezone
+synoinfo_default_path="$(sed -rn 's|(.*)(pkg_def_intall_vol="(.*)")|\2|p' /etc/synoinfo.conf)" # set the default path for app installations.
+qsv="/dev/dri/"
+# get the lastest docker version by scraping the archive.synology.com page for the package.
+docker_version=$(curl -sL "https://archive.synology.com/download/Package/Docker" | sed -rn 's|(.*)href="/download/Package/Docker/(.*)" (.*)|\2|p' | head -n 1)                           # get the lastest docker version
+containermanager_ver=$(curl -sL "https://archive.synology.com/download/Package/ContainerManager" | sed -rn 's|(.*)href="/download/Package/ContainerManager/(.*)" (.*)|\2|p' | head -n 1) # get the lastest containermanager version
+#################################################################################################################################################
+# Install Docker
+#################################################################################################################################################
+# Install docker if install_docker=yes or skip
+if [[ "$cmdocker" == "yes" ]]; then
+    if [[ "${install_containermanager}" == 'yes' ]]; then
+        printf "\n%b\n\n" " ${uplus} Installing Container Manager package"
+        # We need to change this to the selected path to make it install where the user chose for it to go. Then revert it back to default after.
+        if [[ "${#volume_list_array[@]}" -gt '1' ]]; then
+            if grep -Eq '^pkg_def_intall_vol="(.*)"$' /etc/synoinfo.conf; then
+                printf '%b\n\n' " ${ulmc} Modifying ${clc}pkg_def_intall_vol${cend} to ${clc}${docker_install_volume}${cend}"
+                sed -r 's|pkg_def_intall_vol="(.*)"|pkg_def_intall_vol="'"${docker_install_volume}"'"|g' -i.synoinfo.conf.bak-"$(date +%H-%M-%b)" /etc/synoinfo.conf
+            else
+                printf '%b\n\n' " ${ulmc} Setting ${clc}pkg_def_intall_vol${cend} to ${clc}${docker_install_volume}${cend}"
+                printf '%s\n' "pkg_def_intall_vol=\"${docker_install_volume}\"" >>/etc/synoinfo.conf
+            fi
+            synoinfo_modified="true"
+        fi
+
+        wget -qO "${docker_install_volume}/containermanager.spk" "https://global.download.synology.com/download/Package/spk/ContainerManager/${containermanager_ver}/ContainerManager-x86_64-${containermanager_ver}.spk"
+        eval synopkg install "${docker_install_volume}/containermanager.spk" "${hide_all}"
+
+        # We need to change this to back to the default after the docker application is installed
+        if [[ "${synoinfo_modified}" == 'true' && -n "${synoinfo_default_path}" ]]; then
+            printf '%b\n' " ${uyc} ${clc}synoinfo_default_path${cend} was reverted to: ${clc}${synoinfo_default_path}${cend}"
+            sed -r 's|pkg_def_intall_vol="(.*)"|pkg_def_intall_vol="'"$synoinfo_default_path"'"|g' -i /etc/synoinfo.conf
+        else
+            printf '%b\n' " ${uyc} ${clc}synoinfo_default_path${cend} was not set and reverted to empty"
+            sed -r 's|pkg_def_intall_vol="(.*)"|pkg_def_intall_vol=""|g' -i /etc/synoinfo.conf
+        fi
+    else
+        printf "\n ${utick} %b\n" "Container Manager package is already installed"
+    fi
+else
+    if [[ "${install_docker}" == 'yes' ]]; then
+        printf "\n%b\n\n" " ${uplus} Installing Docker package"
+        # We need to change this to the selected path to make it install where the user chose for it to go. Then reveert it back to default after.
+        if [[ "${#volume_list_array[@]}" -gt '1' ]]; then
+            if grep -Eq '^pkg_def_intall_vol="(.*)"$' /etc/synoinfo.conf; then
+                printf '%b\n\n' " ${ulmc} Modifying ${clc}pkg_def_intall_vol${cend} to ${clc}${docker_install_volume}${cend}"
+                sed -r 's|pkg_def_intall_vol="(.*)"|pkg_def_intall_vol="'"${docker_install_volume}"'"|g' -i.synoinfo.conf.bak-"$(date +%H-%M-%b)" /etc/synoinfo.conf
+            else
+                printf '%b\n\n' " ${ulmc} Setting ${clc}pkg_def_intall_vol${cend} to ${clc}${docker_install_volume}${cend}"
+                printf '%s\n' "pkg_def_intall_vol=\"${docker_install_volume}\"" >>/etc/synoinfo.conf
+            fi
+            synoinfo_modified="true"
+        fi
+
+        wget -qO "${docker_install_volume}/docker.spk" "https://global.download.synology.com/download/Package/spk/Docker/${docker_version}/Docker-x64-${docker_version}.spk"
+        eval synopkg install "${docker_install_volume}/docker.spk" "${hide_all}"
+
+        # We need to change this to back to the default after the docker application is installed
+        if [[ "${synoinfo_modified}" == 'true' && -n "${synoinfo_default_path}" ]]; then
+            printf '%b\n' " ${uyc} ${clc}synoinfo_default_path${cend} was reverted to: ${clc}${synoinfo_default_path}${cend}"
+            sed -r 's|pkg_def_intall_vol="(.*)"|pkg_def_intall_vol="'"$synoinfo_default_path"'"|g' -i /etc/synoinfo.conf
+        else
+            printf '%b\n' " ${uyc} ${clc}synoinfo_default_path${cend} was not set and reverted to empty"
+            sed -r 's|pkg_def_intall_vol="(.*)"|pkg_def_intall_vol=""|g' -i /etc/synoinfo.conf
+        fi
+    else
+        printf "\n ${utick} %b\n" "Docker package is already installed"
+    fi
+fi
+
+if [[ "$cmdocker" == "yes" ]]; then
+    synopkg start ContainerManager &>/dev/null
+else
+    synopkg start Docker &>/dev/null
+fi
+#################################################################################################################################################
+# Test Docker
+#################################################################################################################################################
+if [[ "$cmdocker" == "yes" ]]; then
+    if [[ "$(
+        synopkg status ContainerManager &>/dev/null
+        printf '%s' "$?"
+    )" -le '0' ]]; then
+        [[ -f "${docker_install_volume}/containermanager.spk" ]] && rm -f "${docker_install_volume}/containermanager.spk"
+        printf '\n%b\n' " ${utick} Container Manager is running!"
+    else
+        printf '\n%b\n\n' " ${ucross} Container Manager installation has not worked, please try again"
+        exit 1
+    fi
+else
+    if [[ "$(
+        synopkg status Docker &>/dev/null
+        printf '%s' "$?"
+    )" -le '0' ]]; then
+        [[ -f "${docker_install_volume}/docker.spk" ]] && rm -f "${docker_install_volume}/docker.spk"
+        printf '\n%b\n' " ${utick} Docker is running!"
+    else
+        printf '\n%b\n\n' " ${ucross} Docker installation has not worked, please try again"
+        exit 1
+    fi
+fi
+#################################################################################################################################################
+# Check for user
+#################################################################################################################################################
+printf '\n%b\n' " ${ulbc} Checking if user ${clm}docker${cend} exists"
+if synouser --get "docker" &>/dev/null; then
+    printf '\n%b\n' " ${utick} User ${clm}docker${cend} exists!"
+    user="docker"
+else
+    printf '\n%b\n' " ${ucross} The user ${clm}docker${cend} doesn't exist, creating a user for security purposes."
+    read -p -r "Enter a username: " user
+
+    if [ -z "$user" ]; then
+        printf '\n%b\n' " ${ucross} Username cannot be empty. Aborting..."
+        exit 1
+    fi
+
+    if synouser --get "$user" &>/dev/null; then
+        printf '\n%b\n' " ${ucross} The user ${clm}$user${cend} already exists. Skipping user creation..."
+    else
+        read -s -p -r "Enter a password for $user: " password
+        printf '\n'
+
+        if [ -z "$password" ]; then
+            printf '\n%b\n' " ${ucross} Password cannot be empty. Aborting..."
+            exit 1
+        fi
+
+        synouser --add "$user" "$password" "Docker User" 0 "" 0
+
+        if synouser --add "$user" "$password" "Docker User" 0 "" 0; then
+            printf '\n%b\n' " ${utick} User ${clm}$user${cend} created!"
+        else
+            printf '\n%b\n' " ${ucross} Failed to create user ${clm}$user${cend}. Aborting..."
+            exit 1
+        fi
+    fi
+fi
+#################################################################################################################################################
+# check for /data share and create if needed
+#################################################################################################################################################
+printf '\n%b\n' " ${ulbc} Checking if ${clc}/data${cend} shares exist"
+if [[ -d "${docker_data_dir}" ]]; then
+    ### Take action if ${docker_data_dir} exists ###
+    printf '\n%b\n' " ${utick} ${clc}${docker_data_dir}${cend} share exists!"
+else
+    ###  Control will jump here if ${docker_data_dir} does NOT exists ###
+    printf '\n%b\n' " ${ucross} ${clc}${docker_data_dir}${cend} doesn't exist, creating."
+    if synoshare --get data &>/dev/null; then
+        synoshare --setvol data "${docker_data_dir_id}"
+    else
+        synoshare --add data "Data Directory" "${docker_data_dir}" "" "${user}" "" 1 0
+    fi
+    printf '\n%b\n' " ${utick} Created ${clc}${docker_data_dir}${cend}"
+fi
+
+printf '\n%b\n' " ${ulmc} Setting user rights to shares"
+
+[[ -z "${hide_all}" ]] && printf '\n'
+eval synoshare --setuser data RW + "${user}",@${group} "${hide_all}"
+eval synoshare --setuser docker RW + "${user}",@${group} "${hide_all}"
+
+printf '\n%b\n' " ${utick} User has rights to share."
+#################################################################################################################################################
+# VPN stuff
+#################################################################################################################################################
+install_tun() {
+    if curl -sL https://raw.githubusercontent.com/shaneholloman/synarr/main/script/tun.service -o "/etc/systemd/system/tun.service"; then
+        printf '\n%b\n' " ${utick} Service file to start Tun downloaded."
+    fi
+    if systemctl enable /etc/systemd/system/tun.service; then
+        printf '\n%b\n' " ${utick} Service enabled."
+    fi
+    systemctl start tun
+    systemctl is-active --quiet tun
+    if [ $? -eq 1 ]; then
+        printf "\n%b\n" " ${ulrc} Service couldn't start properly."
+        printf "\n%b\n" " ${tb} If you're seeing this you might already have a tun file."
+        exit 1
+    else
+        printf '\n%b\n' " ${utick} Service enabled."
+    fi
+}
+#################################################################################################################################################
+# Create docker-compose.yml and download .env
+#################################################################################################################################################
+# check if docker-compose already exist before overwriting.
+file="${docker_conf_dir}/appdata/docker-compose.yml"
+if [ -f "$file" ]; then
+    while true; do
+        read -erp $'\e[32m\U2714\e[0m docker-compose.yml already exists, overwrite and create new? \e[38;5;10m[y]es\e[m or \e[38;5;9m[n]o\e[m: ' -i "n" yesno
+        case "${yesno}" in
+        [Yy])
+            printf '\n%b\n' " ${ulmc} Overwriting file..."
+            printf '\n%b\n' " ${ulmc} Bootstrapping docker-compose.yml"
+            mkdir -p "${docker_conf_dir}/appdata"
+            cat >"${docker_conf_dir}/appdata/docker-compose.yml" <<EOF
+version: "3.2"
+services:
+EOF
+            break
+            ;;
+        [Nn])
+            printf '\n%b\n' " ${ulmc} Keeping current docker-compose.yml"
+            break
+            ;;
+        *) printf '\n%b\n\n' " ${ulrc} Please answer ${clg}[y]es${cend} or ${clr}[n]o${cend}" ;;
+        esac
+    done
+else
+    printf '\n%b\n' " ${ulmc} Bootstrapping docker-compose.yml"
+    mkdir -p "${docker_conf_dir}/appdata"
+    cat >"${docker_conf_dir}/appdata/docker-compose.yml" <<EOF
+version: "3.2"
+services:
+EOF
+    printf '\n%b\n' " ${utick} docker-compose.yml bootstrapped"
+fi
+
+printf '\n%b\n' " ${ulmc} Downloading docker .env"
+if wget -qO "${docker_conf_dir}/appdata/.env" https://raw.githubusercontent.com/shaneholloman/synarr/main/docker-compose/.env; then
+    printf '\n%b\n' " ${utick} Docker .env downloaded."
+else
+    printf '\n%b\n' " ${ucross} There was a problem downloading then .env, try again"
+    exit 1
+fi
+
+printf '\n%b\n' " ${ulmc} Setting correct User ID in .env"
+sed -i "s|PUID=1031|PUID=$(id "${user}" -u)|g" "${docker_conf_dir}/appdata/.env"
+printf '\n%b\n' " ${utick} User ID set.."
+
+printf '\n%b\n' " ${ulmc} Setting local IP in .env"
+sed -i "s|20.0.0.3:32400|${ip}:32400|g" "${docker_conf_dir}/appdata/.env"
+printf '\n%b\n' " ${utick} Local IP set."
+
+printf '\n%b\n' " ${ulmc} Setting local Gateway in .env"
+sed -i "s|LAN_NETWORK=20.0.0.0/24|LAN_NETWORK=$gateway|g" "${docker_conf_dir}/appdata/.env"
+printf '\n%b\n' " ${utick} local Gateway set."
+
+printf '\n%b\n' " ${ulmc} Setting timezone in .env"
+sed -i "s|Pacific/Auckland|${TZ}|g" "${docker_conf_dir}/appdata/.env"
+printf '\n%b\n' " ${utick} Timezone set."
+
+printf '\n%b\n' " ${ulmc} Setting correct docker config dir in then .env"
+sed -i "s|DOCKERCONFDIR=/volume1/docker|DOCKERCONFDIR=${docker_conf_dir}|g" "${docker_conf_dir}/appdata/.env"
+printf '\n%b\n' " ${utick} ${clc}${docker_conf_dir}${cend} set."
+
+printf '\n%b\n' " ${ulmc} Setting correct docker storage dir in the .env"
+sed -i "s|DOCKERSTORAGEDIR=/volume1/data|DOCKERSTORAGEDIR=${docker_data_dir}|g" "${docker_conf_dir}/appdata/.env"
+printf '\n%b\n' " ${utick} ${clc}${docker_data_dir}${cend} set."
+#################################################################################################################################################
+# compose template downloader
+#################################################################################################################################################
+get_app_compose() {
+    if wget -qO "${docker_conf_dir}/appdata/${1}.yml" "https://raw.githubusercontent.com/shaneholloman/synarr/main/templates/${1,,}.yml"; then
+        # printf '\n' >> "${docker_conf_dir}/appdata/docker-compose.yml"
+
+        [[ "${options}" = 'sabnzbd' ]] && sed -r 's|- 8080:8080$|- 7080:8080|g' -i "${docker_conf_dir}/appdata/${1}.yml"
+        [[ "${options}" == 'dozzle' ]] && sed -r 's|- 8080:8080$|- 7081:8080|g' -i "${docker_conf_dir}/appdata/${1}.yml"
+
+        if grep -q "^\s*${1,,}:" "${docker_conf_dir}/appdata/docker-compose.yml"; then
+            printf '\n%b\n' " ${ucross} Skipped adding ${1,,} to compose, already exists."
+            rm -f "${docker_conf_dir}/appdata/${1}.yml"
+        else
+            printf '\n' >>"${docker_conf_dir}/appdata/docker-compose.yml"
+            sed -n 'p' "${docker_conf_dir}/appdata/${1}.yml" >>"${docker_conf_dir}/appdata/docker-compose.yml"
+            rm -f "${docker_conf_dir}/appdata/${1}.yml"
+            printf '\n%b\n' " ${utick} ${1,,} template added to compose."
+        fi
+    else
+        printf '\n%b\n' " ${ucross} There was a problem downloading the template for ${1,,}. Please try again."
+        exit 1
+    fi
+}
+#################################################################################################################################################
+# Run _multiselect function
+#################################################################################################################################################
+printf '\n%b' " arrow down => down"
+printf '\n%b' " arrow up   => up"
+printf '\n%b' " Space bar  => toggle selection"
+printf '\n%b\n' " Enter key  => confirm selection"
+_multiselect
+#################################################################################################################################################
+# Process selections
+#################################################################################################################################################
+while true; do
+    read -erp $' \e[32m\U2714\e[0m '"Is this correct selection? "$'\e[38;5;10m'"[y]es"$'\e[m'" or "$'\e[38;5;9m'"[n]o"$'\e[m'" : " -i "y" yesno
+    case "${yesno}" in
+    [Yy]*)
+        printf '\n%b\n' " ${ulmc} Creating docker-compose"
+        for options in "${selected_options[@]}"; do
+            mkdir -p "${docker_conf_dir}/appdata/${options}"
+            get_app_compose "${options}"
+            [[ "${options}" == 'plex' ]] && plex_installed="yes"
+            [[ "${options}" == 'qbittorrent' ]] && qbit_installed="yes" && mkdir -p "${docker_data_dir}"/torrents/{tv,movies}
+            [[ "${options}" == 'radarr' ]] && mkdir -p "${docker_data_dir}/media/movies"
+            [[ "${options}" == 'sonarr' ]] && mkdir -p "${docker_data_dir}/media/tv"
+            [[ "${options}" =~ ^(sabnzbd|nzbget)$ ]] && mkdir -p "${docker_data_dir}"/usenet/complete/{tv,movies}
+        done
+
+        if [[ "${plex_installed}" == "yes" ]]; then
+            # check for quick sync
+            if [[ -d "$qsv" ]]; then
+                ### Do nothing if $qsv exists.
+                printf '\n%b\n' " ${utick} Intel Quick Sync found for Plex Hardware Transcoding."
+            else
+                ### Take action if $qsv does not exist.
+                sed -r "s|^(.*)devices:(.*)# optional: if you have a Syno with an Intel CPU(.*)|#\1devices:\2# optional: if you have a Syno with an Intel CPU\3|g" -i "${docker_conf_dir}/appdata/docker-compose.yml"
+                sed -r "s|^(.*)- /dev/dri:/dev/dri(.*)# optional: if you have a Syno with an Intel CPU(.*)|#\1- /dev/dri:/dev/dri(.*)\2# optional: if you have a Syno with an Intel CPU\3|g" -i "${docker_conf_dir}/appdata/docker-compose.yml"
+                printf '\n%b\n' " ${ucross} No Intel Quick Sync found for Plex Hardware Transcoding."
+            fi
+        fi
+
+        if [[ "${qbit_installed}" == "yes" ]]; then
+            while true; do
+                read -erp $'\n \e[32m\U2714\e[0m '"Do you want Qbittorrent installed with VPN? "$'\e[38;5;10m'"[y]es"$'\e[m'" or "$'\e[38;5;9m'"[n]o"$'\e[m'" : " -i "" yesno
+                case "${yesno}" in
+                [Yy]*)
+                    printf '\n%b\n\n' " ${utick} With VPN"
+                    mkdir -p "${docker_conf_dir}/appdata/qbittorrent/wireguard"
+                    install_tun
+                    while true; do
+                        read -erp $' \e[93m\U25cf\e[0m '"Place your "$'\e[38;5;81m'"wg0.conf"$'\e[m'" in:"$'\n\n \e[38;5;81m'"${docker_conf_dir}/appdata/qbittorrent/wireguard"$'\e[m\n\n \e[93m\U25cf\e[0m '"When that is done please confirm "$'\e[38;5;10m'"[y]es"$'\e[m'" : " -i "" yes
+                        case "${yes}" in
+                        [Yy]*)
+                            sed -r 's|VPN_ENABLED=false|VPN_ENABLED=true|g' -i "${docker_conf_dir}/appdata/.env"
+                            sed -r 's|#   devices:|    devices:|g' -i "${docker_conf_dir}/appdata/docker-compose.yml"
+                            sed -r 's|#     - /dev/net/tun:/dev/net/tun|      - /dev/net/tun:/dev/net/tun|g' -i "${docker_conf_dir}/appdata/docker-compose.yml"
+                            if [[ -f "${docker_conf_dir}/appdata/qbittorrent/wireguard/wg0.conf" ]]; then
+                                if sed -r 's|AllowedIPs = (.*)|AllowedIPs = 0.0.0.0/1,128.0.0.0/1|g' -i "${docker_conf_dir}/appdata/qbittorrent/wireguard/wg0.conf" 2>/dev/null; then
+                                    printf '\n%b\n' " ${utick} wg0.conf found and fixed."
+                                fi
+
+                                if curl -sL https://raw.githubusercontent.com/shaneholloman/synarr/main/script/preup.sh -o "${docker_conf_dir}/appdata/qbittorrent/wireguard/preup.sh"; then
+                                    printf '\n%b\n' " ${utick} preup.sh downloaded to ${docker_conf_dir}/appdata/qbittorrent/wireguard/preup.sh"
+                                fi
+
+                                if ! grep -q 'preup = bash /config/wireguard/preup.sh' "${docker_conf_dir}/appdata/qbittorrent/wireguard/wg0.conf"; then
+                                    if sed '/^\[Interface\]/!b;:a;n;/./ba;ipreup = bash /config/wireguard/preup.sh' -i "${docker_conf_dir}/appdata/qbittorrent/wireguard/wg0.conf" 2>/dev/null; then
+                                        printf '\n%b\n' " ${utick} preup = bash /config/wireguard/preup.sh added to wg0.conf"
+                                    fi
+                                fi
+                            else
+                                printf '\n%b\n\n ' " ${ucross} wg0.conf not found. Place file with filename ${clc}wg0.conf${cend} and answer yes when ready."
+                            fi
+                            break 2
+                            ;;
+                        [Nn]*)
+                            printf '\n%b\n\n ' " ${ucross} Cancelled."
+                            exit 1
+                            ;;
+                        *) printf '\n%b\n\n' " ${ulrc} Please answer ${clg}[y]es${cend} to continue or ${clr}[n]o${cend} to cancel." ;;
+                        esac
+                    done
+                    ;;
+                [Nn]*)
+                    printf '\n%b\n' " ${ucross} Without VPN."
+                    sed -r 's|VPN_ENABLED=true|VPN_ENABLED=false|g' -i "${docker_conf_dir}/appdata/.env"
+                    sed -r 's|   devices:|#    devices:|g' -i "${docker_conf_dir}/appdata/docker-compose.yml"
+                    sed -r 's|     - /dev/net/tun:/dev/net/tun|#      - /dev/net/tun:/dev/net/tun|g' -i "${docker_conf_dir}/appdata/docker-compose.yml"
+                    break
+                    ;;
+                esac
+            done
+        fi
+        printf '\n%b\n' " ${ulmc} Doing final permissions stuff, be patient as there is no progress bar here."
+        chown -R "${user}":"${group}" "${docker_data_dir}" "${docker_conf_dir}/appdata"
+        chmod -R a=,a+rX,u+w,g+w "${docker_data_dir}" "${docker_conf_dir}/appdata"
+        printf '\n%b\n' " ${utick} Permissions set."
+
+        printf '\n%b\n' " ${uplus} Installing Pullio for auto updates"
+        if [[ -x "/usr/local/bin/pullio" ]]; then
+            printf '\n%b\n' " ${ucross} Pullio is already installed."
+        else
+            if wget -qO /usr/local/bin/pullio "https://raw.githubusercontent.com/hotio/pullio/master/pullio.sh"; then
+                chmod +x /usr/local/bin/pullio
+                mkdir -p "${docker_conf_dir}/appdata/pullio"
+                printf '\n%b\n' " ${utick} Pullio installed, read final message when the script is done."
+            else
+                printf '\n%b\n' " ${ucross} There was a problem downloading Pullio. Please install manually. Read https://trash-guides.info/Hardlinks/How-to-setup-for/Synology/#pullio-auto-update-docker-compose-the-correct-way"
+            fi
+        fi
+
+        printf '\n%b\n\n' " ${uplus} Installing the selected containers"
+        cd "${docker_conf_dir}/appdata/" || return
+        docker-compose up -d --remove-orphans
+        printf '\n%b\n\n' " ${utick} All set, everything should be running. If you have errors, follow the complete guide. And join our discord server."
+        printf '\n%b\n\n' " ${utick} If you want to enable automatic updates, you need to create a Scheduled Task.\n   Read instructions here: https://trash-guides.info/Hardlinks/How-to-setup-for/Synology/#pullio-auto-update-docker-compose-the-correct-way"
+        break
+        ;;
+    [Nn]*)
+        _multiselect
+        ;;
+    *) printf '\n%b\n\n' " ${ulrc} Please answer ${clg}[y]es${cend} or ${clr}[n]o${cend}" ;;
+    esac
+done
+
+exit

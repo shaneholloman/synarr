@@ -1,0 +1,26 @@
+{
+  "templates": [
+    "authelia",
+    "autobrr",
+    "bazarr",
+    "cross-seed",
+    "dozzle",
+    "emby",
+    "jellyfin",
+    "jellyseerr",
+    "lidarr",
+    "notifiarr",
+    "overseerr",
+    "plex",
+    "prowlarr",
+    "qbitmanage",
+    "qbittorrent",
+    "radarr",
+    "readarr",
+    "recyclarr",
+    "sabnzbd",
+    "sonarr",
+    "tautulli",
+    "unpackerr"
+  ]
+}

@@ -1,0 +1,294 @@
+[
+    {
+        "settings": {
+            "openEditInWindow": false,
+            "openEditInWindow.popup": false,
+            "windowPosition": {},
+            "show-badge": true,
+            "disableAll": false,
+            "exposeIframes": false,
+            "exposeStyleName": false,
+            "newStyleAsUsercss": false,
+            "styleViaASS": false,
+            "styleViaXhr": false,
+            "patchCsp": false,
+            "urlInstaller": true,
+            "config.autosave": true,
+            "schemeSwitcher.enabled": "system",
+            "schemeSwitcher.nightStart": "18:00",
+            "schemeSwitcher.nightEnd": "06:00",
+            "popup.enabledFirst": true,
+            "popup.stylesFirst": true,
+            "popup.autoResort": false,
+            "popup.borders": false,
+            "popup.findSort": "w",
+            "manage.onlyEnabled": false,
+            "manage.onlyLocal": false,
+            "manage.onlyUsercss": false,
+            "manage.onlyEnabled.invert": false,
+            "manage.onlyLocal.invert": false,
+            "manage.onlyUsercss.invert": false,
+            "manage.actions.expanded": true,
+            "manage.backup.expanded": true,
+            "manage.filters.expanded": true,
+            "manage.minColumnWidth": 750,
+            "manage.newUI": true,
+            "manage.newUI.favicons": true,
+            "manage.newUI.faviconsGray": false,
+            "manage.newUI.targets": 3,
+            "manage.newUI.sort": "title,asc",
+            "manage.searchMode": "meta",
+            "editor.options": {},
+            "editor.toc.expanded": true,
+            "editor.options.expanded": true,
+            "editor.lint.expanded": true,
+            "editor.publish.expanded": true,
+            "editor.lineWrapping": true,
+            "editor.smartIndent": true,
+            "editor.indentWithTabs": false,
+            "editor.tabSize": 4,
+            "editor.keyMap": "sublime",
+            "editor.theme": "default",
+            "editor.beautify": {
+                "selector_separator_newline": true,
+                "newline_before_open_brace": false,
+                "newline_after_open_brace": true,
+                "newline_between_properties": true,
+                "newline_before_close_brace": true,
+                "newline_between_rules": false,
+                "preserve_newlines": true,
+                "end_with_newline": false,
+                "indent_conditional": true,
+                "indent_mozdoc": true,
+                "space_around_combinator": true,
+                "space_around_cmp": false
+            },
+            "editor.beautify.hotkey": "",
+            "editor.lintDelay": 300,
+            "editor.linter": "csslint",
+            "editor.lintReportDelay": 500,
+            "editor.matchHighlight": "token",
+            "editor.autoCloseBrackets": true,
+            "editor.autocompleteOnTyping": false,
+            "editor.contextDelete": false,
+            "editor.selectByTokens": true,
+            "editor.arrowKeysTraverse": true,
+            "editor.appliesToLineWidget": true,
+            "editor.autosaveDraft": 10,
+            "editor.livePreview": true,
+            "editor.colorpicker": true,
+            "editor.colorpicker.hexUppercase": false,
+            "editor.colorpicker.hotkey": "",
+            "editor.colorpicker.color": "",
+            "editor.colorpicker.maxHeight": 300,
+            "hotkey._execute_browser_action": "",
+            "hotkey.openManage": "",
+            "hotkey.styleDisableAll": "",
+            "sync.enabled": "none",
+            "iconset": -1,
+            "badgeDisabled": "#8B0000",
+            "badgeNormal": "#006666",
+            "headerWidth.edit": 280,
+            "headerWidth.install": 280,
+            "headerWidth.manage": 280,
+            "popupWidth": 246,
+            "popupWidthMax": 280,
+            "updateInterval": 24,
+            "updateOnlyEnabled": false
+        },
+        "order": {
+            "main": [],
+            "prio": []
+        }
+    },
+    {
+        "enabled": true,
+        "installDate": 1704346983268,
+        "name": "prowlarr",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/prowlarr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:9696"
+                ]
+            }
+        ],
+        "updateDate": 1704347396071,
+        "_id": "d0ae3d71-f2d1-455f-ab11-569d998cbbb7",
+        "_rev": 1704347396071,
+        "id": 1,
+        "inclusions": [
+            "*kora:9696*"
+        ]
+    },
+    {
+        "enabled": true,
+        "installDate": 1704347167913,
+        "name": "sonarr",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/sonarr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:8989"
+                ]
+            }
+        ],
+        "updateDate": 1704347425982,
+        "_id": "5be12842-5528-4821-9cac-db3aa84d0c7f",
+        "_rev": 1704347425982,
+        "id": 2
+    },
+    {
+        "enabled": true,
+        "installDate": 1704347509674,
+        "name": "radarr",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/radarr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:7878"
+                ]
+            }
+        ],
+        "updateDate": 1704347509674,
+        "_id": "41de21dd-a2b4-4405-8fbc-9f63f002ecd4",
+        "_rev": 1704347509675,
+        "id": 3
+    },
+    {
+        "enabled": true,
+        "installDate": 1704347665624,
+        "name": "bazaar",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/bazarr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:6767"
+                ]
+            }
+        ],
+        "updateDate": 1704347665624,
+        "_id": "66bf2e63-c4e9-4551-9222-ae119e0ee7a0",
+        "_rev": 1704347665624,
+        "id": 4
+    },
+    {
+        "enabled": true,
+        "installDate": 1704347980095,
+        "name": "lidarr",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/lidarr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:8686"
+                ]
+            }
+        ],
+        "updateDate": 1704347980095,
+        "_id": "e460ae21-16aa-4c3b-a11a-97b2fe3eba88",
+        "_rev": 1704347980096,
+        "id": 5
+    },
+    {
+        "enabled": true,
+        "installDate": 1704348287625,
+        "name": "vuetorrent",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/vuetorrent/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:8080"
+                ]
+            }
+        ],
+        "updateDate": 1704348332050,
+        "_id": "5fb3d4d3-a1ed-4b5c-9780-015a0880077e",
+        "_rev": 1704348332051,
+        "id": 6
+    },
+    {
+        "enabled": true,
+        "installDate": 1704348644015,
+        "name": "jellyfin",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/jellyfin/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:8096"
+                ]
+            }
+        ],
+        "updateDate": 1704348773412,
+        "_id": "a02b82d6-8058-44e0-8536-9398fe2ebc7e",
+        "_rev": 1704348773412,
+        "id": 8
+    },
+    {
+        "enabled": true,
+        "installDate": 1704348965281,
+        "name": "readarr",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/readarr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:8787"
+                ]
+            }
+        ],
+        "updateDate": 1704348965282,
+        "_id": "ea969022-569a-4045-b0d4-3b6cce8b0d3a",
+        "_rev": 1704348965282,
+        "id": 9
+    },
+    {
+        "enabled": true,
+        "installDate": 1704349074032,
+        "name": "portainer",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/portainer/nord.css\";",
+                "urlPrefixes": [
+                    "https://kora:9443"
+                ]
+            }
+        ],
+        "updateDate": 1704349111854,
+        "_id": "f19c8420-f031-4ecf-84cb-7065627ccbc6",
+        "_rev": 1704349111854,
+        "id": 10
+    },
+    {
+        "enabled": true,
+        "installDate": 1704349246661,
+        "name": "plex",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/plex/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:32400"
+                ]
+            }
+        ],
+        "updateDate": 1704349246661,
+        "_id": "8e401442-07d7-4dc6-9056-261bb3b58b16",
+        "_rev": 1704349246661,
+        "id": 11
+    },
+    {
+        "enabled": true,
+        "installDate": 1704349378887,
+        "name": "overseerr",
+        "sections": [
+            {
+                "code": "@import \"https://theme-park.dev/css/base/overseerr/nord.css\";",
+                "urlPrefixes": [
+                    "http://kora:5055"
+                ]
+            }
+        ],
+        "updateDate": 1704349378887,
+        "_id": "08742ef3-bc79-4584-92b2-f8389a94ffa1",
+        "_rev": 1704349378887,
+        "id": 12
+    }
+]
