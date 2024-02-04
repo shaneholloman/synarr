@@ -1,4 +1,7 @@
-#Requires -PSEdition Core
+<#
+.SYNOPSIS
+This script removes directories smaller than a specified size.
+#>
 
 function Get-DirectorySize {
     param ([string]$Path)
