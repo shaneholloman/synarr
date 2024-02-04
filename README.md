@@ -1,5 +1,7 @@
 # synarr
 
+[![powershell check](https://github.com/shaneholloman/synarr/actions/workflows/powershell.yml/badge.svg)](https://github.com/shaneholloman/synarr/actions/workflows/powershell.yml)
+
 Is a set of docker compose templates for synology nas, (compatible with synology's operating system DSM v7.*)
 
 This collection of docker-compose's is incidentally used for [trash-guides](https://trash-guides.info/).
