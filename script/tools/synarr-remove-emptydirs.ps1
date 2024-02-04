@@ -13,10 +13,10 @@ function Remove-SmallDirectories {
         $dirSize = Get-DirectorySize -Path $_.FullName
         if ($dirSize -lt $SizeLimit) {
             if ($DryRun) {
-                Write-Host "Dry-run: Would delete directory: $($_.FullName)"
+                Write-Output "Dry-run: Would delete directory: $($_.FullName)"
             } else {
                 Remove-Item $_.FullName -Recurse -Force
-                Write-Host "Deleted directory: $($_.FullName)"
+                Write-Output "Deleted directory: $($_.FullName)"
             }
         }
     }

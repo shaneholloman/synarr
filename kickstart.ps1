@@ -39,11 +39,11 @@ foreach ($key in $secrets.Keys) {
 }
 
 if ($missingVars.Count -ne 0) {
-    Write-Host "`nThe following environment variables are missing:"
+    Write-Output "`nThe following environment variables are missing:"
     foreach ($var in $missingVars) {
-        Write-Host $var
+        Write-Output $var
     }
-    Write-Host "Please add them to your environment variables."
+    Write-Output "Please add them to your environment variables."
     return
 }
 
@@ -51,8 +51,7 @@ if ($missingVars.Count -ne 0) {
 foreach ($key in $secrets.Keys) {
     $secretValue = $secrets[$key]
     $secretValue | Out-File -FilePath secretValue.txt -NoNewline -Encoding utf8
-    $command = "Get-Content secretValue.txt -Raw | gh secret set $key --repo=$githubAccount/$repoName"
-    Invoke-Expression -Command $command
+    Get-Content secretValue.txt -Raw | gh secret set $key --repo=$githubAccount/$repoName
     Remove-Item secretValue.txt
 }
 
@@ -65,12 +64,12 @@ git commit --allow-empty -m "$commitMessage"
 git tag -a $tagVersion -m "$tagMessage"
 
 # Ask the user if the current git tag and message are correct
-Write-Host "`nThe current git tag is $tagVersion with the message '$tagMessage'. Is this correct? (yes/no)"
+Write-Output "`nThe current git tag is $tagVersion with the message '$tagMessage'. Is this correct? (yes/no)"
 $answer = Read-Host
 
 if ($answer -eq "yes") {
     git push origin $tagVersion
 }
 else {
-    Write-Host "Please edit the git tag and message in this script."
+    Write-Output "Please edit the git tag and message in this script."
 }
