@@ -1,5 +1,5 @@
 @{
-    Rules = @{
+    ExcludeRules = @{
         PSUseDeclaredVarsMoreThanAssignments = @{
             Severity = "Information"
         }
