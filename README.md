@@ -1,6 +1,6 @@
 # synarr
 
-[![powershell check](https://github.com/shaneholloman/synarr/actions/workflows/powershell.yml/badge.svg)](https://github.com/shaneholloman/synarr/actions/workflows/powershell.yml)
+[![superlint](https://github.com/shaneholloman/synarr/actions/workflows/superlint.yml/badge.svg)](https://github.com/shaneholloman/synarr/actions/workflows/superlint.yml) [![powershell check](https://github.com/shaneholloman/synarr/actions/workflows/powershell.yml/badge.svg)](https://github.com/shaneholloman/synarr/actions/workflows/powershell.yml)
 
 Is a set of docker compose templates for synology nas, (compatible with synology's operating system DSM v7.*)
 
