@@ -1,7 +1,5 @@
 @{
     ExcludeRules = @(
-        'PSUseDeclaredVarsMoreThanAssignments',
-        'PSAvoidUsingInvokeExpression',
-        'PSAvoidUsingWriteHost'
+        'PSUseDeclaredVarsMoreThanAssignments'
     )
 }
