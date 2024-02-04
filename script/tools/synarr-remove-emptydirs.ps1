@@ -4,6 +4,7 @@ function Get-DirectorySize {
 }
 
 function Remove-SmallDirectories {
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [int]$SizeLimit = 2MB,
         [bool]$DryRun = $false
@@ -15,8 +16,10 @@ function Remove-SmallDirectories {
             if ($DryRun) {
                 Write-Output "Dry-run: Would delete directory: $($_.FullName)"
             } else {
-                Remove-Item $_.FullName -Recurse -Force
-                Write-Output "Deleted directory: $($_.FullName)"
+                if ($PSCmdlet.ShouldProcess($_.FullName, "Remove directory")) {
+                    Remove-Item $_.FullName -Recurse -Force
+                    Write-Output "Deleted directory: $($_.FullName)"
+                }
             }
         }
     }
