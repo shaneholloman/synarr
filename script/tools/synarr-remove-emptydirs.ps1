@@ -1,3 +1,5 @@
+#Requires -PSEdition Core
+
 function Get-DirectorySize {
     param ([string]$Path)
     (Get-ChildItem -Path $Path -Recurse -File | Measure-Object -Property Length -Sum).Sum
