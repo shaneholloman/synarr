@@ -3,7 +3,7 @@ function Get-DirectorySize {
     (Get-ChildItem -Path $Path -Recurse -File | Measure-Object -Property Length -Sum).Sum
 }
 
-function Remove-SmallDirectories {
+function Remove-SmallDirectory {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [int]$SizeLimit = 2MB,
@@ -27,4 +27,4 @@ function Remove-SmallDirectories {
 
 # Usage
 # For dry-run, set DryRun parameter to $true
-Remove-SmallDirectories -DryRun $false
+Remove-SmallDirectory -DryRun $false
