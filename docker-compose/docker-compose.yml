@@ -112,9 +112,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERCONFDIR}/plex:/config:rw
       - ${DOCKERSTORAGEDIR}/media:/data/media:rw
-    # optional: if you have a Syno with an Intel CPU with quicksync and want hardware transcoding (only with Plex Pass) uncomment this line.
-    # devices:
-    #   - /dev/dri:/dev/dri
-    # optional: if you have a Syno with enough RAM, you can uncomment this line to enable transcoding in RAM. uncomment this line.
-    # tmpfs:
-    #   - /transcode
+      # optional: if you have a Syno with an Intel CPU with quicksync and want hardware transcoding (only with Plex Pass) uncomment this line.
+      # devices:
+      #   - /dev/dri:/dev/dri
+      # optional: if you have a Syno with enough RAM, you can uncomment this line to enable transcoding in RAM. uncomment this line.
+      # tmpfs:
+      #   - /transcode
