@@ -15,7 +15,7 @@ TODO:
 
 ## Use
 
-1. Pull script from github
+1. Pull script from GitHub
 
     ```sh
     curl -sL https://raw.githubusercontent.com/shaneholloman/synarr/main/script/synarr-installer.sh > ~/synarr-installer.sh
