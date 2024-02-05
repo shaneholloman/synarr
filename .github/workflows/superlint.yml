@@ -11,7 +11,8 @@ name: superlint
 permissions:
   actions: read
   checks: read
-  # Add more permissions as needed
+  # To report GitHub Actions status checks
+  statuses: write
 
 'on':
   workflow_dispatch:
