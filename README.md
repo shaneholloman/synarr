@@ -6,7 +6,6 @@ Is a set of docker compose templates for synology nas, (compatible with synology
 
 This collection of docker-compose's is incidentally used for [trash-guides](https://trash-guides.info/).
 
-
 TODO:
 
 - [ ] create how to and what to expect sections

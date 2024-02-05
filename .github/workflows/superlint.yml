@@ -28,6 +28,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Make scripts executable
+        run: chmod +x script/*.sh script/developing/*.sh script/tools/*.sh
+
       - name: Lint Code Base
         uses: github/super-linter@v5
         # consider using: super-linter/super-linter@v6.0.0
