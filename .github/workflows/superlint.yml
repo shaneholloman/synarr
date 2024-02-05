@@ -8,6 +8,11 @@
 
 name: superlint
 
+permissions:
+  actions: read
+  checks: read
+  # Add more permissions as needed
+
 'on':
   workflow_dispatch:
   push:
