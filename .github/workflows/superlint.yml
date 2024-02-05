@@ -32,3 +32,5 @@ jobs:
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: .github/linters
+          FILTER_REGEX_EXCLUDE: docker-compose/.env
+          # This excludes the .env file from being linted on purpose since it is an example file only
