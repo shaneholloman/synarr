@@ -13,9 +13,6 @@ node_modules/
 dist/
 build/
 
-# Environment configuration files
-.env
-
 # Log files or databases
 *.log
 *.sqlite
