@@ -43,7 +43,7 @@ cc="\e[36m" clc="\e[38;5;81m"  # [c]olor[c]yan    [c]olor[l]ight[c]yan
 
 tb="\e[1m" td="\e[2m" tu="\e[4m" tn="\n" tbk="\e[5m" # [t]ext[b]old [t]ext[d]im [t]ext[u]nderlined [t]ext[n]ewline [t]ext[b]lin[k]
 
-utick="\e[32m\U2714\e[0m" uplus="\e[36m\U002b\e[0m" ucross="\e[31m\U00D7\e[0m" # [u]nicode][tick] [u]nicode][plus] [u]nicode][cross]
+utick="\e[32m\U2713\e[0m" uplus="\e[36m\U002b\e[0m" ucross="\e[31m\U00D7\e[0m" # [u]nicode][tick] [u]nicode][plus] [u]nicode][cross]
 
 urc="\e[31m\U25cf\e[0m" ulrc="\e[38;5;9m\U25cf\e[0m"   # [u]nicode[r]ed[c]ircle     [u]nicode[l]ight[r]ed[c]ircle
 ugc="\e[32m\U25cf\e[0m" ulgc="\e[92m\U25cf\e[0m"       # [u]nicode[g]reen[c]ircle   [u]nicode[l]ight[g]reen[c]ircle
