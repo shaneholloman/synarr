@@ -33,7 +33,7 @@ jobs:
         run: chmod +x kickstart.sh script/*.sh script/developing/*.sh script/tools/*.sh
 
       - name: Lint Code Base
-        uses: github/super-linter@v5
+        uses: github/super-linter@v6
         # consider using: super-linter/super-linter@v6.0.0
         env:
           VALIDATE_ALL_CODEBASE: true
