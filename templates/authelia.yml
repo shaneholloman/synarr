@@ -4,7 +4,7 @@
 # sudo -u docker mkdir -m=00775 /volume1/docker/appdata/authelia
 #
 authelia:
-  image: authelia/authelia
+  image: authelia/authelia:latest
   container_name: authelia
   restart: unless-stopped
   logging:

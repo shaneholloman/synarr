@@ -1,4 +1,3 @@
-version: "3.2"
 services:
   # Radarr - https://hotio.dev/containers/radarr/
   # mkdir /volume1/docker/appdata/radarr

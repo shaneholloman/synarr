@@ -5,7 +5,7 @@
 #
 qbit_manage:
   container_name: qbitmanage
-  image: bobokun/qbit_manage
+  image: bobokun/qbit_manage:latest
   restart: unless-stopped
   logging:
     driver: json-file

@@ -5,7 +5,7 @@
 #
 emby:
   container_name: emby
-  image: lscr.io/linuxserver/emby
+  image: lscr.io/linuxserver/emby:latest
   restart: unless-stopped
   logging:
     driver: json-file

@@ -5,7 +5,7 @@
 #
 recyclarr:
   container_name: recyclarr
-  image: ghcr.io/recyclarr/recyclarr
+  image: ghcr.io/recyclarr/recyclarr:latest
   restart: unless-stopped
   logging:
     driver: json-file

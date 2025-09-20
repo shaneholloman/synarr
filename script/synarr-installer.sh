@@ -812,7 +812,9 @@ while true; do
 
         printf '\n%b\n\n' " ${uplus} Installing the selected containers"
         cd "${docker_conf_dir}/appdata/" || return
-        docker-compose up -d --remove-orphans
+        printf '\n%b\n' " ${ulmc} Pulling latest images to ensure fresh versions..."
+        docker-compose pull --ignore-pull-failures
+        docker-compose up -d --remove-orphans --force-recreate
         printf '\n%b\n\n' " ${utick} All set, everything should be running. If you have errors, follow the complete guide. And join our discord server."
         printf '\n%b\n\n' " ${utick} If you want to enable automatic updates, you need to create a Scheduled Task.\n   Read instructions here: https://trash-guides.info/Hardlinks/How-to-setup-for/Synology/#pullio-auto-update-docker-compose-the-correct-way"
         break
