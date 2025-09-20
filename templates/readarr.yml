@@ -5,7 +5,7 @@
 #
 readarr:
   container_name: readarr
-  image: hotio/readarr:latest
+  image: ghcr.io/hotio/readarr:latest
   restart: unless-stopped
   logging:
     driver: json-file

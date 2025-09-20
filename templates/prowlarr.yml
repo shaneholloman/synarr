@@ -5,7 +5,7 @@
 #
 prowlarr:
   container_name: prowlarr
-  image: hotio/prowlarr:latest
+  image: ghcr.io/hotio/prowlarr:latest
   restart: unless-stopped
   logging:
     driver: json-file

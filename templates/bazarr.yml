@@ -5,7 +5,7 @@
 #
 bazarr:
   container_name: bazarr
-  image: hotio/bazarr:latest
+  image: ghcr.io/hotio/bazarr:latest
   restart: unless-stopped
   logging:
     driver: json-file

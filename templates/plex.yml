@@ -5,7 +5,7 @@
 #
 plex:
   container_name: plex
-  image: hotio/plex:latest
+  image: ghcr.io/hotio/plex:latest
   restart: unless-stopped
   logging:
     driver: json-file
